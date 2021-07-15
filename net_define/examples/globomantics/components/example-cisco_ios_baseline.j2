@@ -1,0 +1,12 @@
+hostname {{hostname}}
+ip domain-name {{domain_name}}
+ip name-server {{name_server}}
+ip ssh version 2
+username {{ username }} secret {{ secret }}
+line vty 0 15
+ login local
+banner motd ^
+******************************************
+       THIS IS A TEST CONFIGURATION
+******************************************
+!

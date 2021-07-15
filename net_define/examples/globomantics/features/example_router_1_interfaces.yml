@@ -1,0 +1,28 @@
+---
+meta:
+  component: example-cisco_ios_l3_interfaces.j2
+config:
+  interfaces:
+    - int_id: loop0
+      ip_address: 10.255.255.1
+      net_mask: 255.255.255.255
+      ospf:
+        instance_id: 100
+        area_id: 0
+      status: enabled
+
+    - int_id: G0
+      ip_address: 10.0.0.1
+      net_mask: 255.255.255.252
+      ospf:
+        instance_id: 100
+        area_id: 0
+      status: enabled
+
+    - int_id: G1
+      ip_address: 10.0.0.5
+      net_mask: 255.255.255.252
+      ospf:
+        instance_id: 100
+        area_id: 0
+      status: enabled

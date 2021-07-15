@@ -1,0 +1,12 @@
+router bgp {{ asn }}
+{%- if neighbors is defined %}
+{%- for neighbor in neighbors %}
+ neighbor {{ neighbor.peer_ip }} remote-as {{ neighbor.asn }}
+{%- endfor %}
+{%- endif %}
+{%- if network_statements is defined %}
+{%- for network in network_statements %}
+ network {{ network.prefix }} mask {{ network.mask }}
+{%- endfor %}
+{%- endif %}
+!

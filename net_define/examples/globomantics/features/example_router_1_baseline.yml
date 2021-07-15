@@ -1,0 +1,9 @@
+---
+meta:
+  component: example-cisco_ios_baseline.j2
+config:
+  hostname: example-router-1
+  domain_name: globomantics.net
+  name_server: 10.254.0.1
+  username: cisco
+  secret: cisco

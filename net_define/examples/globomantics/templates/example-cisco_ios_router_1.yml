@@ -1,0 +1,8 @@
+---
+name: example-router-1.globomantics.net
+features:
+  - example_router_1_baseline.yml
+  - example_router_1_ospf.yml
+  - example_router_1_bgp.yml
+  - example_router_1_static_routes.yml
+  - example_router_1_interfaces.yml

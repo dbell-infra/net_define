@@ -1,0 +1,10 @@
+meta:
+  component: example-cisco_ios_bgp.j2
+config:
+  asn: 65000
+  neighbors:
+    - peer_ip: 10.255.255.2
+      asn: 65000
+  network_statements:
+    - prefix: 10.100.100.0
+      mask: 255.255.255.0

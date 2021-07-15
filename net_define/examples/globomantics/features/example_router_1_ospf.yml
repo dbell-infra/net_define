@@ -1,0 +1,6 @@
+meta:
+  component: example-cisco_ios_ospf.j2
+config:
+  process_id: 100
+  passive_interfaces:
+    - int_id: loop0

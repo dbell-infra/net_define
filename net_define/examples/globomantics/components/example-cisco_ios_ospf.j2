@@ -1,0 +1,7 @@
+router ospf {{process_id}}
+{%- if passive_interfaces is defined %}
+{%- for interface in passive_interfaces %}
+  passive-interface {{ interface.int_id }}
+{%- endfor %}
+{%- endif %}
+!

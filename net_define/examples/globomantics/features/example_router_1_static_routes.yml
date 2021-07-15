@@ -1,0 +1,7 @@
+meta:
+  component: example-cisco_ios_static_routes.j2
+config:
+  routes:
+    - prefix: 10.100.100.0
+      mask: 255.255.255.0
+      next_hop: 10.255.255.3

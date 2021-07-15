@@ -1,0 +1,11 @@
+{% for interface in interfaces -%}
+interface {{interface.int_id}}
+ ip address {{interface.ip_address}} {{interface.net_mask}}
+ {%- if interface.ospf is defined %}
+ ip ospf {{interface.ospf.instance_id}} area {{interface.ospf.area_id}}
+ {%- endif %}
+ {%- if interface.status == "enabled" %}
+ no shutdown
+ {%- endif %}
+!
+{% endfor %}

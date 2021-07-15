@@ -1,0 +1,36 @@
+hostname example-router-1
+ip domain-name globomantics.net
+ip name-server 10.254.0.1
+ip ssh version 2
+username cisco secret cisco
+line vty 0 15
+ login local
+banner motd ^
+******************************************
+       THIS IS A TEST CONFIGURATION
+******************************************
+!
+router ospf 100
+  passive-interface loop0
+!
+router bgp 65000
+ neighbor 10.255.255.2 remote-as 65000
+ network 10.100.100.0 mask 255.255.255.0
+!
+ip route 10.100.100.0 255.255.255.0 10.255.255.3
+!
+interface loop0
+ ip address 10.255.255.1 255.255.255.255
+ ip ospf 100 area 0
+ no shutdown
+!
+interface G0
+ ip address 10.0.0.1 255.255.255.252
+ ip ospf 100 area 0
+ no shutdown
+!
+interface G1
+ ip address 10.0.0.5 255.255.255.252
+ ip ospf 100 area 0
+ no shutdown
+!
