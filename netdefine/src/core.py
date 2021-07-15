@@ -1,5 +1,5 @@
-from template import ConfigTemplate
-from utilities import Files, State
+from .template import ConfigTemplate
+from .utilities import Files, State
 
 
 class NetDefine:

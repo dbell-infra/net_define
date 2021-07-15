@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project specific
+.idea
+examples/globomantics/state.json
+net_define/.idea
+

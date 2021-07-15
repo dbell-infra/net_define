@@ -1,4 +1,4 @@
-from netdefine import NetDefine
+from netdefine.src.core import NetDefine
 from .data import template_text, feature_text, component_text, \
     changed_component_text, changed_feature_text, bad_template_text
 import pytest

@@ -1,6 +1,6 @@
 import click
 import pprint
-from core import NetDefine
+from .core import NetDefine
 
 netdefine = NetDefine(root='.')
 printer = pprint.PrettyPrinter(indent=2)
