@@ -2,7 +2,7 @@
 # net_define
 A declarative framework for building CLI-based network configurations
 
-##About
+## About
 Netdefine attempts to address pain points found when moving from hand-crafted CLI files to CLI templates and abstracted variable data. 
 
 Using Netdefine, engineers can build device templates from a self-service repository of shared components. 
@@ -10,7 +10,7 @@ These components are referenced by Features, which contain the required data for
 
 Netdefine tracks the state of each file in your configuration repository by computing a hash of the file bytes, when a file is changed, `netdefine plan` can be ran to track which devices require updates due to a change in an underlying feature or component. 
 
-##Directory Structure
+## Directory Structure
 This is an example of a basic directory structure for a Netdefine project. 
 
 The components directory stores all resubale CLI templates as J2 files. 
@@ -172,7 +172,7 @@ interface G1
 !
 ```
 
-##Contributing to Netdefine
+## Contributing to Netdefine
 
 Install dev requirements using `pip install - requirements.dev.txt`
 
