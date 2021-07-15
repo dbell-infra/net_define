@@ -42,7 +42,7 @@ By default Netdefine will create a state.json file in your project root director
 ## Using Netdefine 
 This package is in its very early stages and is not pushed to PyPi, to install netdefine, clone this repository and run the setup file after creating a virtual environment.
 
-`python netdefine/src/setup.py`
+`python netdefine/src/setup.py develop`
 
 From there, you will have access to the netdefine command. Change into the examples/globomantics directory and run `netdefine plan`
 
