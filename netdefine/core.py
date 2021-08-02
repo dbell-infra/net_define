@@ -1,5 +1,5 @@
 from netdefine.template.template import ConfigTemplate
-from utilities import Files, State
+from netdefine.utilities import Files, State
 
 
 class NetDefine:
