@@ -3,6 +3,9 @@ from utilities import Files, State
 
 
 class NetDefine:
+    """
+    Netdefine core class
+    """
     def __init__(self, root, environment='local'):
         self.environment = environment
         self.files = Files(root=root, environment=self.environment)
