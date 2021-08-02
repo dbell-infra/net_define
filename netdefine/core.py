@@ -1,4 +1,4 @@
-from template.template import ConfigTemplate
+from netdefine.template.template import ConfigTemplate
 from utilities import Files, State
 
 
