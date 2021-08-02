@@ -1,4 +1,4 @@
-from netdefine.src.template import ConfigTemplate
+from netdefine.template import ConfigTemplate
 from .data import template_text, feature_text, component_text, bad_feature_text
 import pytest
 
