@@ -1,4 +1,4 @@
-from template import ConfigTemplate
+from template.template import ConfigTemplate
 from utilities import Files, State
 
 
