@@ -3,13 +3,18 @@ import json
 import hashlib
 from deepdiff import DeepDiff
 import yaml
+import sys
 
 class Files:
     def __init__(self, root, environment, output_directory='configs'):
         self.root = root
-        self.templates = os.listdir(f"{root}/templates")
-        self.features = os.listdir(f"{root}/features")
-        self.components = os.listdir(f"{root}/components")
+        try:
+            self.templates = os.listdir(f"{root}/templates")
+            self.features = os.listdir(f"{root}/features")
+            self.components = os.listdir(f"{root}/components")
+        except FileNotFoundError:
+            print('Directory structure not found, please run netdefine init ')
+            sys.exit(1)
         self.output_directory = f'{root}/{output_directory}'
         self.environment = environment
 

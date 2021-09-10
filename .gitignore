@@ -50,6 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+iobound.tmp
 
 # Translations
 *.mo
@@ -132,4 +133,5 @@ dmypy.json
 .idea
 examples/globomantics/state.json
 net_define/.idea
+
 
