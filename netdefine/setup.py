@@ -12,6 +12,6 @@ setup(
         'jinja2'
     ],
     entry_points={
-        'console_scripts': ['netdefine=cli:cli']
+        'console_scripts': ['netdefine=netdefine.cli:cli']
     }
 )
