@@ -114,3 +114,4 @@ def test_netdefine_render_bad_templates(file_structure):
     netdefine = NetDefine(root=file_structure)
     templates = netdefine.render_templates()
     assert type(templates) is Exception
+

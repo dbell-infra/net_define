@@ -4,19 +4,26 @@ import hashlib
 from deepdiff import DeepDiff
 import yaml
 import sys
+from configparser import ConfigParser
 
 class Files:
     def __init__(self, root, environment, output_directory='configs'):
         self.root = root
-        try:
-            self.templates = os.listdir(f"{root}/templates")
-            self.features = os.listdir(f"{root}/features")
-            self.components = os.listdir(f"{root}/components")
-        except FileNotFoundError:
-            print('Directory structure not found, please run netdefine init ')
-            sys.exit(1)
         self.output_directory = f'{root}/{output_directory}'
         self.environment = environment
+        try:
+            self.templates = os.listdir(f"{self.root}/templates")
+            self.features = os.listdir(f"{self.root}/features")
+            self.components = os.listdir(f"{self.root}/components")
+        except FileNotFoundError:
+            choice = input('Project structure not found, create project? y/n ')
+            if choice == "y":
+                project_name = input('project name:')
+                self.create_directory_structure(project_name)
+                self.create_cfg(project_name)
+                sys.exit(0)
+            else:
+                sys.exit(1)
 
     def write_file(self, file_name, data):
         if self.environment == 'local':
@@ -42,6 +49,27 @@ class Files:
             return state
         except:
             return None
+
+
+
+    def create_directory_structure(self, project_name):
+        if not os.path.exists(project_name):
+            print(f'creating directory: {project_name}/components')
+            os.makedirs(f'{project_name}/components')
+            print(f'creating directory: {project_name}/configs')
+            os.makedirs(f'{project_name}/configs')
+            print(f'creating directory: {project_name}/features')
+            os.makedirs(f'{project_name}/features')
+            print(f'creating directory: {project_name}/templates')
+            os.makedirs(f'{project_name}/templates')
+    def create_cfg(self, project_name):
+        print('creating config file: netdefine.cfg')
+        with open('netdefine.cfg', 'w') as file:
+            config = ConfigParser()
+            config['DEFAULT'] = {'root': project_name}
+            config.write(file)
+
+
 
 
 

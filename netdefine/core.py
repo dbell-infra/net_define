@@ -32,6 +32,9 @@ class NetDefine:
             return Exception('An issue occured during template load')
         return template_output
 
+    def init(self, project):
+        self.files.create_directory_structure(project=project)
+
     def plan(self):
         diff = self.state.determine_state()
         if diff == {}:
@@ -39,44 +42,46 @@ class NetDefine:
         else:
             changed = []
 
-            for value in diff['values_changed']:
-                # garbage hack to make the diff response able to be consumed easier down the road
-                name = value[4:].split("[")[2][1:-2]
-                type = (value[4:].split("[")[1][1:-2])
-                changed.append({'type': type, "name": name})
+            # only run diff for changes in tracked files
+            if "values_changed" in diff:
+                for value in diff['values_changed']:
+                    # garbage hack to make the diff response able to be consumed easier down the road
+                    name = value[4:].split("[")[2][1:-2]
+                    type = (value[4:].split("[")[1][1:-2])
+                    changed.append({'type': type, "name": name})
 
-            components_changed = [item['name'] for item in changed if item['type'] == 'components']
-            features_changed = [item['name'] for item in changed if item['type'] == 'features']
+                components_changed = [item['name'] for item in changed if item['type'] == 'components']
+                features_changed = [item['name'] for item in changed if item['type'] == 'features']
 
-            # Determine if any changes affect a device template
-            templates = []
+                # Determine if any changes affect a device template
+                templates = []
 
-            if components_changed:
-                features = []
-                # If a component has been changed, look for features that reference the component
-                for entry in components_changed:
-                    for feature in self.features:
-                        feature_data = self.files.read_file(f'features/{feature}', from_yaml=True)
-                        if feature_data['meta']['component'] == entry and entry not in features:
-                            features.append(feature)
-                # In our collection of features referenced by a changed component,
-                # find templates that reference the feature.
-                for feature in features:
-                    for template in self.templates:
-                        template_data = self.files.read_file(f'templates/{template}', from_yaml=True)
-                        if feature in template_data['features'] and template not in templates:
-                            templates.append(template)
+                if components_changed:
+                    features = []
+                    # If a component has been changed, look for features that reference the component
+                    for entry in components_changed:
+                        for feature in self.features:
+                            feature_data = self.files.read_file(f'features/{feature}', from_yaml=True)
+                            if feature_data['meta']['component'] == entry and entry not in features:
+                                features.append(feature)
+                    # In our collection of features referenced by a changed component,
+                    # find templates that reference the feature.
+                    for feature in features:
+                        for template in self.templates:
+                            template_data = self.files.read_file(f'templates/{template}', from_yaml=True)
+                            if feature in template_data['features'] and template not in templates:
+                                templates.append(template)
 
-            if features_changed:
-                for feature in features_changed:
-                    for template in self.templates:
-                        template_data = self.files.read_file(f'templates/{template}', from_yaml=True)
-                        if feature in template_data['features'] and template not in templates:
-                            templates.append(template)
+                if features_changed:
+                    for feature in features_changed:
+                        for template in self.templates:
+                            template_data = self.files.read_file(f'templates/{template}', from_yaml=True)
+                            if feature in template_data['features'] and template not in templates:
+                                templates.append(template)
 
-            return {'templates_changed': templates,
-                    'features_changed': features_changed,
-                    'components_changed': components_changed}
+                return {'templates_changed': templates,
+                        'features_changed': features_changed,
+                        'components_changed': components_changed}
 
     def apply(self, change, difference=False, dry_run=False, target=None):
         if dry_run:
