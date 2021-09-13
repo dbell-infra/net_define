@@ -1,8 +1,8 @@
 import click
 import pprint
-from core import NetDefine
 import os
 import configparser
+from core import NetDefine
 
 if os.path.exists('netdefine.cfg'):
     config = configparser.ConfigParser()
@@ -12,6 +12,9 @@ if os.path.exists('netdefine.cfg'):
 else:
     # if no config file exists, assume the current working dir as project root
     netdefine = NetDefine(root=".")
+
+
+
 
 
 
