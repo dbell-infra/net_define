@@ -2,7 +2,7 @@ import click
 import pprint
 import os
 import configparser
-from core import NetDefine
+from .core import NetDefine
 
 if os.path.exists('netdefine.cfg'):
     config = configparser.ConfigParser()
@@ -28,11 +28,18 @@ def cli():
 @cli.command()
 def plan():
     result = netdefine.plan()
-    if result:
+
+    if result != {'templates_changed': None,
+                  'features_changed': None,
+                  'components_changed': None,
+                  'templates_added': None,
+                  'templates_removed': []}:
 
         templates = result['templates_changed']
         features = result['features_changed']
         components = result['components_changed']
+        templates_added = result['templates_added']
+        templates_removed = result['templates_removed']
 
         print(f"\nNetdefine has detected changes.")
 
@@ -47,6 +54,14 @@ def plan():
         if templates:
             print(f"\nThe following device configurations are affected by changes")
             for template in templates:
+                print(f"  - Device Template: {template}")
+        if templates_added:
+            print(f"\nThe following device templates have been added")
+            for template in templates_added:
+                print(f"  - Device Template: {template}")
+        if templates_removed:
+            print(f"\nThe following device templates have been removed")
+            for template in templates_removed:
                 print(f"  - Device Template: {template}")
 
         print("\n Run apply to update device configurations")

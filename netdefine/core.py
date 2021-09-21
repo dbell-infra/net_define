@@ -1,5 +1,5 @@
-from template import ConfigTemplate
-from utilities import Files, State
+from .template import ConfigTemplate
+from .utilities import Files, State
 
 
 class NetDefine:
@@ -35,21 +35,51 @@ class NetDefine:
     def init(self, project):
         self.files.create_directory_structure(project=project)
 
+    @staticmethod
+    def parse_value(value):
+        # garbage hack to make the diff response able to be consumed easier down the road
+        name = value[4:].split("[")[2][1:-2]
+        type = (value[4:].split("[")[1][1:-2])
+
+        return {'type': type, "name": name}
+
     def plan(self):
         diff = self.state.determine_state()
         if diff == {}:
             return None
         else:
-            changed = []
+            features_changed = None
+            templates = None
+            components_changed = None
+            templates_added = None
+            templates_removed = None
 
-            # only run diff for changes in tracked files
+            # handle added templates
+            if 'dictionary_item_added' in diff:
+                added = []
+                for item in diff['dictionary_item_added']:
+                    value_data = self.parse_value(item)
+                    added.append(value_data)
+
+                templates_added = [item['name'] for item in added if item['type'] == 'templates']
+
+            # handle removed templates
+            if 'dictionary_item_removed' in diff:
+                removed = []
+                for item in diff['dictionary_item_removed']:
+                    value_data = self.parse_value(item)
+                    removed.append(value_data)
+
+                templates_removed = [item['name'] for item in removed if item['type'] == 'templates']
+
+            # handle changed values in existing templates
             if "values_changed" in diff:
+                changed = []
                 for value in diff['values_changed']:
-                    # garbage hack to make the diff response able to be consumed easier down the road
-                    name = value[4:].split("[")[2][1:-2]
-                    type = (value[4:].split("[")[1][1:-2])
-                    changed.append({'type': type, "name": name})
+                    value_data = self.parse_value(value)
+                    changed.append(value_data)
 
+                # Collect components and features that have changed
                 components_changed = [item['name'] for item in changed if item['type'] == 'components']
                 features_changed = [item['name'] for item in changed if item['type'] == 'features']
 
@@ -79,9 +109,11 @@ class NetDefine:
                             if feature in template_data['features'] and template not in templates:
                                 templates.append(template)
 
-                return {'templates_changed': templates,
-                        'features_changed': features_changed,
-                        'components_changed': components_changed}
+            return {'templates_changed': templates,
+                    'features_changed': features_changed,
+                    'components_changed': components_changed,
+                    'templates_added': templates_added,
+                    'templates_removed': templates_removed}
 
     def apply(self, change, difference=False, dry_run=False, target=None):
         if dry_run:
